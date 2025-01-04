@@ -2,23 +2,23 @@ package distance_converter
 
 import "fmt"
 
-type micrometer float64
+type microMeter float64
 
 const (
-	Micrometer micrometer = 1
-	Millimeter micrometer = 1_000
-	Centimeter micrometer = 10_000
-	Decimeter  micrometer = 100_000
-	Meter      micrometer = 1_000_000
-	Kilometer  micrometer = 1_000_000_000
+	Micrometer microMeter = 1
+	Millimeter microMeter = 1_000
+	Centimeter microMeter = 10_000
+	Decimeter  microMeter = 100_000
+	Meter      microMeter = 1_000_000
+	Kilometer  microMeter = 1_000_000_000
 )
 
 type Distance struct {
 	title string
-	value micrometer
+	value microMeter
 }
 
-func NewDistance(title string, value micrometer) *Distance {
+func NewDistance(title string, value microMeter) *Distance {
 	switch title {
 	case "mm":
 		value *= Millimeter

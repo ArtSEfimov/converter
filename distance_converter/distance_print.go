@@ -19,9 +19,9 @@ func (distance *Distance) String() string {
 	}
 }
 
-func (m micrometer) ToString(formatValue any) string {
+func (m microMeter) ToString(formatValue any) string {
 	switch formatValue.(type) {
-	case micrometer:
+	case microMeter:
 		switch formatValue {
 		case Micrometer:
 			return NewDistance("mk", m).String()

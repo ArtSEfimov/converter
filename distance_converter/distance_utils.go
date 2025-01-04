@@ -51,13 +51,13 @@ func Parse(valueTitle string) (*Distance, error) {
 		return nil, fmt.Errorf("bad convertation to number: %w", err)
 	}
 
-	return NewDistance(title, micrometer(floatNumber)), nil
+	return NewDistance(title, microMeter(floatNumber)), nil
 
 }
 
-func (m micrometer) Equal(anotherValue any) bool {
+func (m microMeter) Equal(anotherValue any) bool {
 	switch assertionValue := anotherValue.(type) {
-	case micrometer:
+	case microMeter:
 		return m == assertionValue
 	case *Distance:
 		return m == assertionValue.value
@@ -68,7 +68,7 @@ func (m micrometer) Equal(anotherValue any) bool {
 
 func (distance *Distance) Equal(anotherValue any) bool {
 	switch assertionValue := anotherValue.(type) {
-	case micrometer:
+	case microMeter:
 		return distance.value == assertionValue
 	case *Distance:
 		return distance.value == assertionValue.value
@@ -77,7 +77,7 @@ func (distance *Distance) Equal(anotherValue any) bool {
 	}
 }
 
-func (m micrometer) Convert(anotherValue any) *Distance {
+func (m microMeter) Convert(anotherValue any) *Distance {
 	switch assertionValue := anotherValue.(type) {
 	case string:
 		switch assertionValue {
@@ -92,7 +92,7 @@ func (m micrometer) Convert(anotherValue any) *Distance {
 		default:
 			return NewDistance("mk", m)
 		}
-	case micrometer:
+	case microMeter:
 		switch assertionValue {
 		case Millimeter:
 			return NewDistance("mm", m/Millimeter)
@@ -126,7 +126,7 @@ func (distance *Distance) Convert(anotherValue any) *Distance {
 		default:
 			return NewDistance("mk", distance.value)
 		}
-	case micrometer:
+	case microMeter:
 		switch assertionValue {
 		case Millimeter:
 			return NewDistance("mm", distance.value/Millimeter)
