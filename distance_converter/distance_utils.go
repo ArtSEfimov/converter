@@ -55,12 +55,12 @@ func Parse(valueTitle string) (*Distance, error) {
 
 }
 
-func (value micrometer) Equal(anotherValue any) bool {
+func (m micrometer) Equal(anotherValue any) bool {
 	switch assertionValue := anotherValue.(type) {
 	case micrometer:
-		return value == assertionValue
+		return m == assertionValue
 	case *Distance:
-		return value == assertionValue.value
+		return m == assertionValue.value
 	default:
 		return false
 	}
@@ -77,36 +77,36 @@ func (distance *Distance) Equal(anotherValue any) bool {
 	}
 }
 
-func (value micrometer) Convert(anotherValue any) *Distance {
+func (m micrometer) Convert(anotherValue any) *Distance {
 	switch assertionValue := anotherValue.(type) {
 	case string:
 		switch assertionValue {
 		case "mm":
-			return NewDistance("mm", value/Millimeter)
+			return NewDistance("mm", m/Millimeter)
 		case "cm":
-			return NewDistance("cm", value/Centimeter)
+			return NewDistance("cm", m/Centimeter)
 		case "m":
-			return NewDistance("m", value/Meter)
+			return NewDistance("m", m/Meter)
 		case "km":
-			return NewDistance("km", value/Kilometer)
+			return NewDistance("km", m/Kilometer)
 		default:
-			return NewDistance("mc", value)
+			return NewDistance("mc", m)
 		}
 	case micrometer:
 		switch assertionValue {
 		case Millimeter:
-			return NewDistance("mm", value/Millimeter)
+			return NewDistance("mm", m/Millimeter)
 		case Centimeter:
-			return NewDistance("cm", value/Centimeter)
+			return NewDistance("cm", m/Centimeter)
 		case Meter:
-			return NewDistance("m", value/Meter)
+			return NewDistance("m", m/Meter)
 		case Kilometer:
-			return NewDistance("km", value/Kilometer)
+			return NewDistance("km", m/Kilometer)
 		default:
-			return NewDistance("mc", value)
+			return NewDistance("mc", m)
 		}
 	case *Distance:
-		return NewDistance(assertionValue.title, value)
+		return NewDistance(assertionValue.title, m)
 	}
 	return nil
 }

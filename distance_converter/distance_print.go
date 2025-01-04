@@ -19,7 +19,7 @@ func (distance *Distance) String() string {
 	}
 }
 
-func (m micrometer) FString(formatValue any) string {
+func (m micrometer) ToString(formatValue any) string {
 	switch formatValue.(type) {
 	case micrometer:
 		switch formatValue {
