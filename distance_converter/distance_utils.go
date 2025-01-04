@@ -90,7 +90,7 @@ func (m micrometer) Convert(anotherValue any) *Distance {
 		case "km":
 			return NewDistance("km", m/Kilometer)
 		default:
-			return NewDistance("mc", m)
+			return NewDistance("mk", m)
 		}
 	case micrometer:
 		switch assertionValue {
@@ -103,7 +103,7 @@ func (m micrometer) Convert(anotherValue any) *Distance {
 		case Kilometer:
 			return NewDistance("km", m/Kilometer)
 		default:
-			return NewDistance("mc", m)
+			return NewDistance("mk", m)
 		}
 	case *Distance:
 		return NewDistance(assertionValue.title, m)
@@ -124,7 +124,7 @@ func (distance *Distance) Convert(anotherValue any) *Distance {
 		case "km":
 			return NewDistance("km", distance.value/Kilometer)
 		default:
-			return NewDistance("mc", distance.value)
+			return NewDistance("mk", distance.value)
 		}
 	case micrometer:
 		switch assertionValue {
@@ -137,7 +137,7 @@ func (distance *Distance) Convert(anotherValue any) *Distance {
 		case Kilometer:
 			return NewDistance("km", distance.value/Kilometer)
 		default:
-			return NewDistance("mc", distance.value)
+			return NewDistance("mk", distance.value)
 		}
 	case *Distance:
 		return NewDistance(assertionValue.title, distance.value)
