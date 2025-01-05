@@ -45,7 +45,7 @@ func Parse(valueTitle string) (*Distance, error) {
 	value = strings.TrimSpace(value)
 
 	title = strings.Trim(title, ".")
-	value = strings.Trim(title, ".")
+	value = strings.Trim(value, ".")
 
 	if err := validateDistanceTitle(title); err != nil {
 		return nil, fmt.Errorf("type validation error: %w", err)
