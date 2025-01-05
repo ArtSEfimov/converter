@@ -47,6 +47,8 @@ func Parse(valueTitle string) (*Volume, error) {
 	title = strings.Trim(title, ".")
 	value = strings.Trim(value, ".")
 
+	title = strings.ToLower(title)
+
 	if err := validateVolumeTitle(title); err != nil {
 		return nil, fmt.Errorf("type validation error: %w", err)
 	}
@@ -85,7 +87,10 @@ func (volume *Volume) Equal(anotherValue any) bool {
 func (m microLiter) Convert(anotherValue any) *Volume {
 	switch assertionValue := anotherValue.(type) {
 	case string:
+		assertionValue = strings.ToLower(assertionValue)
 		switch assertionValue {
+		case "mkl":
+			return NewVolume("mkl", m)
 		case "ml":
 			return NewVolume("ml", m/Milliliter)
 		case "l":
@@ -98,7 +103,7 @@ func (m microLiter) Convert(anotherValue any) *Volume {
 			return NewVolume("gal", m/Gallon)
 
 		default:
-			return NewVolume("mkl", m)
+			return nil
 		}
 	case microLiter:
 		switch assertionValue {
@@ -124,7 +129,10 @@ func (m microLiter) Convert(anotherValue any) *Volume {
 func (volume *Volume) Convert(anotherValue any) *Volume {
 	switch assertionValue := anotherValue.(type) {
 	case string:
+		assertionValue = strings.ToLower(assertionValue)
 		switch assertionValue {
+		case "mkl":
+			return NewVolume("mkl", volume.value)
 		case "ml":
 			return NewVolume("ml", volume.value/Milliliter)
 		case "l":
@@ -136,7 +144,7 @@ func (volume *Volume) Convert(anotherValue any) *Volume {
 		case "gal":
 			return NewVolume("gal", volume.value/Gallon)
 		default:
-			return NewVolume("mkl", volume.value)
+			return nil
 		}
 	case microLiter:
 		switch assertionValue {

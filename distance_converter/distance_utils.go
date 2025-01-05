@@ -47,6 +47,8 @@ func Parse(valueTitle string) (*Distance, error) {
 	title = strings.Trim(title, ".")
 	value = strings.Trim(value, ".")
 
+	title = strings.ToLower(title)
+
 	if err := validateDistanceTitle(title); err != nil {
 		return nil, fmt.Errorf("type validation error: %w", err)
 	}
@@ -85,7 +87,10 @@ func (distance *Distance) Equal(anotherValue any) bool {
 func (m microMeter) Convert(anotherValue any) *Distance {
 	switch assertionValue := anotherValue.(type) {
 	case string:
+		assertionValue = strings.ToLower(assertionValue)
 		switch assertionValue {
+		case "mk":
+			return NewDistance("mk", m)
 		case "mm":
 			return NewDistance("mm", m/Millimeter)
 		case "cm":
@@ -97,7 +102,7 @@ func (m microMeter) Convert(anotherValue any) *Distance {
 		case "km":
 			return NewDistance("km", m/Kilometer)
 		default:
-			return NewDistance("mk", m)
+			return nil
 		}
 	case microMeter:
 		switch assertionValue {
@@ -123,7 +128,10 @@ func (m microMeter) Convert(anotherValue any) *Distance {
 func (distance *Distance) Convert(anotherValue any) *Distance {
 	switch assertionValue := anotherValue.(type) {
 	case string:
+		assertionValue = strings.ToLower(assertionValue)
 		switch assertionValue {
+		case "mk":
+			return NewDistance("mk", distance.value)
 		case "mm":
 			return NewDistance("mm", distance.value/Millimeter)
 		case "cm":
@@ -135,7 +143,7 @@ func (distance *Distance) Convert(anotherValue any) *Distance {
 		case "km":
 			return NewDistance("km", distance.value/Kilometer)
 		default:
-			return NewDistance("mk", distance.value)
+			return nil
 		}
 	case microMeter:
 		switch assertionValue {
