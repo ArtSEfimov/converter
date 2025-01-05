@@ -23,35 +23,35 @@ func (m microLiter) ToString(formatValue any) string {
 	switch formatValue.(type) {
 	case microLiter:
 		switch formatValue {
-		case Micrometer:
-			return NewDistance("mk", m).String()
-		case Millimeter:
-			return NewDistance("mm", m/Millimeter).String()
-		case Centimeter:
-			return NewDistance("cm", m/Centimeter).String()
-		case Decimeter:
-			return NewDistance("dm", m/Decimeter).String()
-		case Meter:
-			return NewDistance("m", m/Meter).String()
-		case Kilometer:
-			return NewDistance("km", m/Kilometer).String()
+		case MicroLiter:
+			return NewVolume("mkl", m).String()
+		case Milliliter:
+			return NewVolume("ml", m/Milliliter).String()
+		case Liter:
+			return NewVolume("l", m/Liter).String()
+		case Barrel:
+			return NewVolume("bl", m/Barrel).String()
+		case OilBarrel:
+			return NewVolume("bbl", m/OilBarrel).String()
+		case Gallon:
+			return NewVolume("km", m/Gallon).String()
 		default:
 			return "unknown format"
 		}
 	case string:
 		switch formatValue {
-		case "mk":
-			return NewDistance("mk", m).String()
-		case "mm":
-			return NewDistance("mm", m/Millimeter).String()
-		case "cm":
-			return NewDistance("cm", m/Centimeter).String()
-		case "dm":
-			return NewDistance("dm", m/Decimeter).String()
-		case "m":
-			return NewDistance("m", m/Meter).String()
-		case "km":
-			return NewDistance("km", m/Kilometer).String()
+		case "mkl":
+			return NewVolume("mkl", m).String()
+		case "ml":
+			return NewVolume("ml", m/Milliliter).String()
+		case "l":
+			return NewVolume("l", m/Liter).String()
+		case "bl":
+			return NewVolume("bl", m/Barrel).String()
+		case "bbl":
+			return NewVolume("bbl", m/OilBarrel).String()
+		case "gal":
+			return NewVolume("gal", m/Gallon).String()
 		default:
 			return "unknown format"
 		}
