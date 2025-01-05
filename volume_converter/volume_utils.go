@@ -18,9 +18,11 @@ func Parse(valueTitle string) (*Volume, error) {
 	var firstNoDigitIndexPointer *int
 
 	for i, char := range valueTitle {
-		if unicode.IsDigit(char) || char == '.' {
+		if unicode.IsDigit(char) {
 			valueBuilder.WriteRune(char)
 			lastDigitIndexPointer = &i
+		} else if char == '.' || char == ',' {
+			valueBuilder.WriteRune('.')
 		} else {
 			titleBuilder.WriteRune(char)
 			if firstNoDigitIndexPointer == nil {
@@ -42,7 +44,10 @@ func Parse(valueTitle string) (*Volume, error) {
 	title = strings.TrimSpace(title)
 	value = strings.TrimSpace(value)
 
-	if err := validateDistanceTitle(title); err != nil {
+	title = strings.Trim(title, ".")
+	value = strings.Trim(title, ".")
+
+	if err := validateVolumeTitle(title); err != nil {
 		return nil, fmt.Errorf("type validation error: %w", err)
 	}
 
@@ -51,6 +56,105 @@ func Parse(valueTitle string) (*Volume, error) {
 		return nil, fmt.Errorf("bad convertation to number: %w", err)
 	}
 
-	return NewDistance(title, microMeter(floatNumber)), nil
+	return NewVolume(title, microLiter(floatNumber)), nil
 
+}
+
+func (m microLiter) Equal(anotherValue any) bool {
+	switch assertionValue := anotherValue.(type) {
+	case microLiter:
+		return m == assertionValue
+	case *Volume:
+		return m == assertionValue.value
+	default:
+		return false
+	}
+}
+
+func (volume *Volume) Equal(anotherValue any) bool {
+	switch assertionValue := anotherValue.(type) {
+	case microLiter:
+		return volume.value == assertionValue
+	case *Volume:
+		return volume.value == assertionValue.value
+	default:
+		return false
+	}
+}
+
+func (m microLiter) Convert(anotherValue any) *Volume {
+	switch assertionValue := anotherValue.(type) {
+	case string:
+		switch assertionValue {
+		case "ml":
+			return NewVolume("ml", m/Milliliter)
+		case "l":
+			return NewVolume("l", m/Liter)
+		case "bl":
+			return NewVolume("bl", m/Barrel)
+		case "bbl":
+			return NewVolume("bbl", m/OilBarrel)
+		case "gal":
+			return NewVolume("gal", m/Gallon)
+
+		default:
+			return NewVolume("mkl", m)
+		}
+	case microLiter:
+		switch assertionValue {
+		case Milliliter:
+			return NewVolume("ml", m/Milliliter)
+		case Liter:
+			return NewVolume("l", m/Liter)
+		case Barrel:
+			return NewVolume("bl", m/Barrel)
+		case OilBarrel:
+			return NewVolume("bbl", m/OilBarrel)
+		case Gallon:
+			return NewVolume("gal", m/Gallon)
+		default:
+			return NewVolume("mkl", m)
+		}
+	case *Volume:
+		return NewVolume(assertionValue.title, m)
+	}
+	return nil
+}
+
+func (volume *Volume) Convert(anotherValue any) *Volume {
+	switch assertionValue := anotherValue.(type) {
+	case string:
+		switch assertionValue {
+		case "ml":
+			return NewVolume("ml", volume.value/Milliliter)
+		case "l":
+			return NewVolume("l", volume.value/Liter)
+		case "bl":
+			return NewVolume("bl", volume.value/Barrel)
+		case "bbl":
+			return NewVolume("bbl", volume.value/OilBarrel)
+		case "gal":
+			return NewVolume("gal", volume.value/Gallon)
+		default:
+			return NewVolume("mkl", volume.value)
+		}
+	case microLiter:
+		switch assertionValue {
+		case Milliliter:
+			return NewVolume("ml", volume.value/Milliliter)
+		case Liter:
+			return NewVolume("l", volume.value/Liter)
+		case Barrel:
+			return NewVolume("bl", volume.value/Barrel)
+		case OilBarrel:
+			return NewVolume("bbl", volume.value/OilBarrel)
+		case Gallon:
+			return NewVolume("gal", volume.value/Gallon)
+		default:
+			return NewVolume("mkl", volume.value)
+		}
+	case *Volume:
+		return NewVolume(assertionValue.title, volume.value)
+	}
+	return nil
 }

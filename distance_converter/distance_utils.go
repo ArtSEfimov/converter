@@ -90,6 +90,8 @@ func (m microMeter) Convert(anotherValue any) *Distance {
 			return NewDistance("mm", m/Millimeter)
 		case "cm":
 			return NewDistance("cm", m/Centimeter)
+		case "dm":
+			return NewDistance("dm", m/Decimeter)
 		case "m":
 			return NewDistance("m", m/Meter)
 		case "km":
@@ -103,6 +105,8 @@ func (m microMeter) Convert(anotherValue any) *Distance {
 			return NewDistance("mm", m/Millimeter)
 		case Centimeter:
 			return NewDistance("cm", m/Centimeter)
+		case Decimeter:
+			return NewDistance("dm", m/Decimeter)
 		case Meter:
 			return NewDistance("m", m/Meter)
 		case Kilometer:
@@ -124,6 +128,8 @@ func (distance *Distance) Convert(anotherValue any) *Distance {
 			return NewDistance("mm", distance.value/Millimeter)
 		case "cm":
 			return NewDistance("cm", distance.value/Centimeter)
+		case "dm":
+			return NewDistance("dm", distance.value/Decimeter)
 		case "m":
 			return NewDistance("m", distance.value/Meter)
 		case "km":
@@ -137,6 +143,8 @@ func (distance *Distance) Convert(anotherValue any) *Distance {
 			return NewDistance("mm", distance.value/Millimeter)
 		case Centimeter:
 			return NewDistance("cm", distance.value/Centimeter)
+		case Decimeter:
+			return NewDistance("dm", distance.value/Decimeter)
 		case Meter:
 			return NewDistance("m", distance.value/Meter)
 		case Kilometer:
