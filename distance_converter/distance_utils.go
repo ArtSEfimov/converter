@@ -18,9 +18,11 @@ func Parse(valueTitle string) (*Distance, error) {
 	var firstNoDigitIndexPointer *int
 
 	for i, char := range valueTitle {
-		if unicode.IsDigit(char) || char == '.' {
+		if unicode.IsDigit(char) {
 			valueBuilder.WriteRune(char)
 			lastDigitIndexPointer = &i
+		} else if char == '.' || char == ',' {
+			valueBuilder.WriteRune('.')
 		} else {
 			titleBuilder.WriteRune(char)
 			if firstNoDigitIndexPointer == nil {
@@ -41,6 +43,9 @@ func Parse(valueTitle string) (*Distance, error) {
 
 	title = strings.TrimSpace(title)
 	value = strings.TrimSpace(value)
+
+	title = strings.Trim(title, ".")
+	value = strings.Trim(title, ".")
 
 	if err := validateDistanceTitle(title); err != nil {
 		return nil, fmt.Errorf("type validation error: %w", err)
